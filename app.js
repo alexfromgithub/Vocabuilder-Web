@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 app.use('/public', express.static('public'));
 app.use('/node_modules', express.static('node_modules'));
 app.use(session({
-	secret: 'vidyapathaisalwaysrunning',
+	secret: 'vocabuilder',
 	resave: true,
 	saveUninitialized: true
  } ));
@@ -25,7 +25,7 @@ app.get('/', function(req, res) {
   });
 });
 app.get('/welcome', function(req, res) {
-  res.render('welcome');
+  res.render('welcome', {title:"Welcome to Vocabuilder"});
 });
 app.get('/signup', function(req, res) {
   res.render('signup.ejs', { message: req.flash('signupMessage') });
