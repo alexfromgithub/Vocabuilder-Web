@@ -28,7 +28,7 @@ app.get('/welcome', function(req, res) {
   res.render('welcome', {title:"Welcome to Vocabuilder"});
 });
 app.get('/signup', function(req, res) {
-  res.render('signup.ejs', { message: req.flash('signupMessage') });
+  res.render('signup', { message: req.flash('signupMessage'), title: "Sign Up" });
 });
 app.get('/word-list', function(req, res) {
   res.render('wordlist', {
