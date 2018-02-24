@@ -1,38 +1,37 @@
-var express = require('express');
-var passport = require('passport');
-var flash = require('connect-flash');
+var express  = require('express');
 var session  = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var app      = express();
+var port     = process.env.PORT || 3000;
 
-var app = express();
+var passport = require('passport');
+var flash    = require('connect-flash');
+
+require('./config/passport')(passport);
+app.use('/public', express.static('public'));
+app.use('/node_modules', express.static('node_modules'));
+
+
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
 
-app.use('/public', express.static('public'));
-app.use('/node_modules', express.static('node_modules'));
 app.use(session({
 	secret: 'vocabuilder',
 	resave: true,
 	saveUninitialized: true
- } ));
+} ));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.get('/', function(req, res) {
-  res.render('index', {
-    title: 'Home'
-  });
-});
-app.get('/welcome', function(req, res) {
-  res.render('welcome', {title:"Welcome to Vocabuilder"});
-});
-app.get('/signup', function(req, res) {
-  res.render('signup', { message: req.flash('signupMessage'), title: "Sign Up" });
-});
-app.get('/word-list', function(req, res) {
-  res.render('wordlist', {
-    title: 'Word List'
-  });
-});
-app.listen(3000);
+
+require('./app/routes.js')(app, passport);
+
+app.listen(port);
