@@ -47,4 +47,31 @@ module.exports = function(passport) {
             });
         })
     );
+
+    passport.use(
+        'local-login',
+        new LocalStrategy({
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true
+        },
+        function(req, username, password, done) {
+            connection.query("SELECT * FROM users WHERE username = ?",[username], function(err, rows){
+                if (err)
+                    return done(err);
+
+                // user does not exist
+                if (!rows.length) {
+                    return done(null, false, req.flash('loginMessage', 'No user found.'));
+                }
+
+                // wrong password
+                if (!bcrypt.compareSync(password, rows[0].password)) {
+                  return done(null, false, req.flash('loginMessage', 'The password you have entered is incorrect.'));
+                }
+
+                return done(null, rows[0]);
+            });
+        })
+    );
 };

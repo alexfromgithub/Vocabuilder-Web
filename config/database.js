@@ -2,9 +2,9 @@
 module.exports = {
     'connection': {
         'host': 'localhost',
-        'user': 'user',
-        'password': 'password'
+        'user': 'root',
+        'password': 'root'
     },
-	'database': 'database',
+	'database': 'vocabuilder',
     'users_table': 'users'
 };
