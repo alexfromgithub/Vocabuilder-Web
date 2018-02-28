@@ -42,7 +42,8 @@ module.exports = function(app, passport) {
 
   app.get('/home', isLoggedIn, function(req, res) {
     res.render('home', {
-      title: 'Home'
+      title: 'Home',
+      user: req.user
     });
   });
   app.get('/word-list', function(req, res) {
