@@ -59,6 +59,11 @@ module.exports = function(app, passport) {
     }
   });
 
+  app.post('/changename', function(req, res) {
+    console.log(req.body.firstname);
+    res.redirect('profile');
+  });
+
   app.get('/word-list', function(req, res) {
     // if (req.isAuthenticated()){
       res.render('word-list', {

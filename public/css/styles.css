@@ -1,6 +1,18 @@
 .btn-primary {
   background-color: #5B9BD5 !important;
 }
-.top-buffer {
+.top-buffer-20 {
   margin-top:20px;
+}
+.top-buffer-50 {
+  margin-top:50px;
+}
+.table-borderless td, .table-borderless th {
+    border: none;
+}
+.form-inline input {
+   margin-left: 10px;
+}
+.form-inline * {
+  margin-bottom: 10px;
 }
