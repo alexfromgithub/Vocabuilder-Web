@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include partials/head %>
+  <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css" />
+  <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      $('#wordtable').DataTable();
+    });
+  </script>
+</head>
+
+<body>
+  <% include partials/nav %>
+  <div class="container">
+    <div class="row text-center top-buffer">
+      <div class="col-4 col-offset-1">
+        <button type="button" class="btn btn-success">Add/Import</button>
+      </div>
+      <div class="col-4">
+        <button type="button" class="btn btn-primary">Edit</button>
+      </div>
+      <div class="col-4">
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+    <div class="row top-buffer">
+      <div class="col-12">
+        <table id="wordtable" class="display" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th>Word</th>
+              <th>Phonetic<br>Symbol</th>
+              <th>Meaning</th>
+              <th>Progress</th>
+              <th>Date added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>clock</td>
+              <td>n</td>
+              <td>something that shows the time</td>
+              <td>1</td>
+              <td>28/2/2018</td>
+            </tr>
+            <tr>
+              <td>start</td>
+              <td>v</td>
+              <td>begin something</td>
+              <td>10</td>
+              <td>28/2/2016</td>
+            </tr>
+          </tbody>
+        </table>
+
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    $('#example')
+      .removeClass('display')
+      .addClass('table table-striped table-bordered');
+  </script>

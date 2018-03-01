@@ -46,10 +46,30 @@ module.exports = function(app, passport) {
       user: req.user
     });
   });
+
+  app.get('/profile', function(req, res) {
+    if (req.isAuthenticated()){
+      res.render('profile', {
+        title: 'Profile',
+        user: req.user
+      });
+    }
+    else {
+      res.redirect('/');
+    }
+  });
+
   app.get('/word-list', function(req, res) {
-    res.render('wordlist', {
-      title: 'Word List'
-    });
+    // if (req.isAuthenticated()){
+      res.render('word-list', {
+        title: 'Word List',
+        user: req.user
+      });
+    // }
+    // else {
+    //   res.redirect('/');
+    // }
+
   });
   app.get('/logout', function(req, res) {
     req.logout();

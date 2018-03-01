@@ -1,4 +1,6 @@
 .btn-primary {
   background-color: #5B9BD5 !important;
-  color: black !important;
+}
+.top-buffer {
+  margin-top:20px;
 }
