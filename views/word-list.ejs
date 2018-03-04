@@ -3,65 +3,73 @@
 
 <head>
   <% include partials/head %>
-  <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css" />
-  <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    $(document).ready(function() {
-      $('#wordtable').DataTable();
-    });
-  </script>
+    <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#wordtable').DataTable();
+      });
+    </script>
 </head>
 
 <body>
   <% include partials/nav %>
-  <div class="container">
-    <div class="row text-center top-buffer-20">
-      <div class="col-4">
-        <button type="button" class="btn btn-success btn-lg">Add/Import</button>
+    <div class="container">
+      <div class="row text-center top-buffer-20">
+        <div class="col-3">
+          <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addwordmodal">Add</button>
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#importwordmodal">Import</button>
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-primary btn-lg">Edit</button>
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-danger btn-lg">Delete</button>
+        </div>
       </div>
-      <div class="col-4">
-        <button type="button" class="btn btn-primary btn-lg">Edit</button>
+      <div class="row top-buffer-20">
+        <div class="col-12">
+          <table id="wordtable" class="display" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>Word</th>
+                <th>Phonetic<br>Symbol</th>
+                <th>Meaning</th>
+                <th>Progress</th>
+                <th>Date added</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>clock</td>
+                <td>n</td>
+                <td>something that shows the time</td>
+                <td>1</td>
+                <td>28/2/2018</td>
+              </tr>
+              <tr>
+                <td>start</td>
+                <td>v</td>
+                <td>begin something</td>
+                <td>10</td>
+                <td>28/2/2016</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
       </div>
-      <div class="col-4">
-        <button type="button" class="btn btn-danger btn-lg">Delete</button>
-      </div>
+      <% include modals/word-list %>
     </div>
-    <div class="row top-buffer-20">
-      <div class="col-12">
-        <table id="wordtable" class="display" cellspacing="0" width="100%">
-          <thead>
-            <tr>
-              <th>Word</th>
-              <th>Phonetic<br>Symbol</th>
-              <th>Meaning</th>
-              <th>Progress</th>
-              <th>Date added</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>clock</td>
-              <td>n</td>
-              <td>something that shows the time</td>
-              <td>1</td>
-              <td>28/2/2018</td>
-            </tr>
-            <tr>
-              <td>start</td>
-              <td>v</td>
-              <td>begin something</td>
-              <td>10</td>
-              <td>28/2/2016</td>
-            </tr>
-          </tbody>
-        </table>
+</body>
 
-    </div>
+</html>
 
-  </div>
-
-  <script type="text/javascript">
-    $('#example')
-      .removeClass('display')
-      .addClass('table table-striped table-bordered');
-  </script>
+<script type="text/javascript">
+  $('#example')
+    .removeClass('display')
+    .addClass('table table-striped table-bordered');
+</script>

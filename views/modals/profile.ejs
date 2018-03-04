@@ -8,78 +8,87 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="form-inline" action="/changename" method="post">
+
       <div class="modal-body">
-        <div class="form-group">
-          <label for="firstname">New First Name:</label>
-          <input type="text" class="form-control" id="firstname" name="firstname" required>
-        </div>
-        <div class="form-group">
-          <label for="lastname">New Last Name:</label>
-          <input type="text" class="form-control" id="lastname" name="lastname" required>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="pwmodal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" >Change Password</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form class="form-inline" action="/changepw" method="post">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="oldpw">Old Password:</label>
-            <input type="password" class="form-control" id="oldpw" name="oldpw" required>
+        <form action="/changename" method="post">
+          <div class="form-group row">
+            <label for="firstname" class="col-md-5 col-form-label">New First Name:</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="firstname" name="firstname" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="lastname">New Password:</label>
-            <input type="password" class="form-control" id="newpw" name="newpw" required>
+          <div class="form-group row">
+            <label for="lastname" class="col-md-5 col-form-label">New Last Name:</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="lastname" name="lastname" required>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="newpw2">Re-enter New Password:</label>
-            <input type="password" class="form-control" id="newpw2" name="newpw2" required>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-      </form>
+
+        </form>
+      </div>
+
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="emailmodal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Change Email</h5>
-          <button type="button" class="close align-right" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Email</h5>
+        <button type="button" class="close align-right" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <form class="form-inline" action="/changeemail" method="post">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="email">New Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="modal-body">
+        <form action="/changeemail" method="post">
+
+          <div class="form-group row">
+            <label for="email" class="col-md-5 col-form-label">New Email:</label>
+            <div class="col-md-7">
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-      </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="pwmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <form action="/changepw" method="post">
+          <div class="form-group row">
+            <label for="oldpw" class="col-md-5 col-form-label">Old Password:</label>
+            <div class="col-md-7">
+              <input type="password" class="form-control" id="oldpw" name="oldpw" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="newpw" class="col-md-5 col-form-label">New Password:</label>
+            <div class="col-md-7">
+              <input type="password" class="form-control" id="newpw" name="newpw" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="newpw2" class="col-md-5 col-form-label">Re-enter New Password:</label>
+            <div class="col-md-7">
+              <input type="password" class="form-control" id="newpw2" name="newpw2" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

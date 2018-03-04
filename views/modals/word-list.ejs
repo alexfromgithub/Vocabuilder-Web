@@ -1,0 +1,29 @@
+<div class="modal fade" id="addwordmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Add Word</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/addword" method="post">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="word">Word:</label>
+              <input type="text" class="form-control" id="word" name="word">
+          </div>
+          <div class="form-group">
+            <label for="phonetic">Phonetic Symbol:</label>
+              <input type="text" class="form-control" id="phonetic" name="phonetic">
+          </div>
+          <div class="form-group">
+            <label for="meaning">Meaning:</label>
+              <textarea rows="5" class="form-control" id="meaning" name="meaning"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+    </div>
+  </div>
+</div>
