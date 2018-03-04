@@ -48,14 +48,14 @@ module.exports = function(app, passport) {
   });
 
   app.get('/profile', function(req, res) {
-    if (req.isAuthenticated()){
+    if (req.isAuthenticated()) {
       res.render('profile', {
         title: 'Profile',
-        message: req.flash('message'),
+        messageSuccess: req.flash('messageSuccess'),
+        messageFail: req.flash('messageFail'),
         user: req.user
       });
-    }
-    else {
+    } else {
       res.redirect('/');
     }
   });
@@ -70,24 +70,33 @@ module.exports = function(app, passport) {
     res.redirect('profile');
   });
 
-  app.post('/changepw', function(req, res, next) {
+  app.post('/changepw', function(req, res) {
+    // Is there a way to move this into profile.js?
+    // If I move the redirect out of connection.query, the messages are not flashed
+    // I can't move redirect into the module
     connection.query("SELECT * FROM users WHERE id = ?", [req.user.id], function(err, rows) {
       if (err) throw err;
-      if (req.body.oldpw !== rows[0].password) {
-        console.log("dd");
-        req.flash('message', 'Sorry. Your old password is incorrect.');
-        res.redirect('profile');
+      else if (!bcrypt.compareSync(req.body.oldpw, rows[0].password)) {
+        req.flash('messageFail', 'Your old password is incorrect.');
+      } else if (req.body.newpw !== req.body.newpw2) {
+        req.flash('messageFail', 'Your new passwords do not match.');
+      } else {
+        connection.query("UPDATE users SET password = ? WHERE id = ?", [bcrypt.hashSync(req.body.newpw, null, null), req.user.id], function(err, rows) {
+          if (err) throw err;
+        });
+        req.flash('messageSuccess', 'Your password has been changed. Please \
+        logout for your new password to take effect.');
       }
+      res.redirect('profile');
     });
-    // res.redirect('profile');
   });
 
   app.get('/word-list', function(req, res) {
     // if (req.isAuthenticated()){
-      res.render('word-list', {
-        title: 'Word List',
-        user: req.user
-      });
+    res.render('word-list', {
+      title: 'Word List',
+      user: req.user
+    });
     // }
     // else {
     //   res.redirect('/');
@@ -104,28 +113,11 @@ var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var bcrypt = require('bcrypt-nodejs');
 var connection = mysql.createConnection(dbconfig.connection);
+require('./profile.js')();
 connection.query('USE ' + dbconfig.database);
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
     return next();
   res.redirect('/');
-}
-
-function changeName(id, firstname, lastname) {
-  connection.query("UPDATE users SET firstname = ?, lastname = ? WHERE id = ?",
-    [firstname,lastname,id], function(err, rows){
-    if (err) throw err;
-  });
-}
-
-function changeEmail(id, email) {
-  connection.query("UPDATE users SET email = ? WHERE id = ?",
-    [email,id], function(err, rows){
-    if (err) throw err;
-  });
-}
-
-function changePW(id, oldpw, newpw, newpw2, done, req) {
-
 }
