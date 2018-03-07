@@ -45,12 +45,15 @@ module.exports = function(passport) {
             connection.query(insertQuery, [newUserMysql.username, newUserMysql.password
               , req.body.firstname, req.body.lastname, req.body.email], function(err, rows) {
               newUserMysql.id = rows.insertId;
+              console.log(rows.insertId);
+              var tablename = 'table_' + rows.insertId;
+              connection.query('CREATE TABLE ?? (id INT AUTO_INCREMENT PRIMARY KEY, \
+                word VARCHAR(30), phonetic VARCHAR(10), meaning VARCHAR(255), \
+                progress TINYINT, dateadded DATE, UNIQUE INDEX `id_UNIQUE` (`id` ASC))', [tablename], function(err, rows) {
+                  if (err) throw err;
+                });
               return done(null, newUserMysql);
             });
-            var tablename = 'table_' + username;
-            connection.query('CREATE TABLE ?? (id INT AUTO_INCREMENT PRIMARY KEY, \
-              word VARCHAR(30), phonetic VARCHAR(10), meaning VARCHAR(255), \
-              progress TINYINT, dateadded DATE, UNIQUE INDEX `id_UNIQUE` (`id` ASC))', [tablename]);
           }
         });
       })

@@ -10,17 +10,23 @@
       </div>
       <form action="/addword" method="post">
         <div class="modal-body">
-          <div class="form-group">
-            <label for="word">Word:</label>
+          <div class="form-group row">
+            <label for="word" class="col-md-4 col-form-label">Word:</label>
+            <div class="col-md-8">
               <input type="text" class="form-control" id="word" name="word">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="phonetic">Phonetic Symbol:</label>
+          <div class="form-group row">
+            <label for="phonetic" class="col-md-4 col-form-label">Phonetic Symbol:</label>
+            <div class="col-md-8">
               <input type="text" class="form-control" id="phonetic" name="phonetic">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="meaning">Meaning:</label>
+          <div class="form-group row">
+            <label for="meaning" class="col-md-4 col-form-label">Meaning:</label>
+            <div class="col-md-8">
               <textarea rows="5" class="form-control" id="meaning" name="meaning"></textarea>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary">Add</button>
           </form>

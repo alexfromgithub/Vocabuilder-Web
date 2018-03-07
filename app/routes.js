@@ -92,16 +92,19 @@ module.exports = function(app, passport) {
   });
 
   app.get('/word-list', function(req, res) {
-    // if (req.isAuthenticated()){
-    res.render('word-list', {
-      title: 'Word List',
-      user: req.user
-    });
-    // }
-    // else {
-    //   res.redirect('/');
-    // }
+    if (req.isAuthenticated()) {
+      res.render('word-list', {
+        title: 'Word List',
+        user: req.user
+      });
+    } else {
+      res.redirect('/');
+    }
+  });
 
+  app.post('/addword', function(req,res) {
+    addWord(req.user.id, req.body.word, req.body.phonetic, req.body.meaning);
+    res.redirect('word-list');
   });
   app.get('/logout', function(req, res) {
     req.logout();
@@ -113,8 +116,9 @@ var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var bcrypt = require('bcrypt-nodejs');
 var connection = mysql.createConnection(dbconfig.connection);
-require('./profile.js')();
 connection.query('USE ' + dbconfig.database);
+require('./profile.js')();
+require('./word-list.js')();
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
