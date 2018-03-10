@@ -93,9 +93,12 @@ module.exports = function(app, passport) {
 
   app.get('/word-list', function(req, res) {
     if (req.isAuthenticated()) {
-      res.render('word-list', {
-        title: 'Word List',
-        user: req.user
+      getWordList(req.user.id, function(err, data){
+        res.render('word-list', {
+          title: 'Word List',
+          user: req.user,
+          wordlist: data
+        });
       });
     } else {
       res.redirect('/');

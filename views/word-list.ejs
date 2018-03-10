@@ -34,6 +34,7 @@
           <table id="wordtable" class="display" cellspacing="0" width="100%">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Word</th>
                 <th>Phonetic<br>Symbol</th>
                 <th>Meaning</th>
@@ -42,20 +43,16 @@
               </tr>
             </thead>
             <tbody>
+              <% for (var i = 0; i < wordlist.length; i++) { %>
               <tr>
-                <td>clock</td>
-                <td>n</td>
-                <td>something that shows the time</td>
-                <td>1</td>
-                <td>28/2/2018</td>
+                <td><%= wordlist[i].id %></td>
+                <td><%= wordlist[i].word %></td>
+                <td><%= wordlist[i].phonetic %></td>
+                <td><%= wordlist[i].meaning %></td>
+                <td><%= wordlist[i].progress %></td>
+                <td><%= wordlist[i].dateadded.toLocaleDateString("en-US") %></td>
               </tr>
-              <tr>
-                <td>start</td>
-                <td>v</td>
-                <td>begin something</td>
-                <td>10</td>
-                <td>28/2/2016</td>
-              </tr>
+              <% } %>
             </tbody>
           </table>
 

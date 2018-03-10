@@ -46,7 +46,7 @@ module.exports = function(passport) {
               , req.body.firstname, req.body.lastname, req.body.email], function(err, rows) {
               newUserMysql.id = rows.insertId;
               console.log(rows.insertId);
-              var tablename = 'table_' + rows.insertId;
+              var tablename = rows.insertId;
               connection.query('CREATE TABLE ?? (id INT AUTO_INCREMENT PRIMARY KEY, \
                 word VARCHAR(30), phonetic VARCHAR(10), meaning VARCHAR(255), \
                 progress TINYINT, dateadded DATE, UNIQUE INDEX `id_UNIQUE` (`id` ASC))', [tablename], function(err, rows) {
