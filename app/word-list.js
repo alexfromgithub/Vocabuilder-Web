@@ -26,6 +26,12 @@ module.exports = function(req, res) {
       if (err) throw err;
     });
   }
+
+  deleteWord = function(userid, wordid) {
+    connection.query("DELETE FROM ?? WHERE id = ?", [userid, wordid], function(err, rows){
+      if (err) throw err;
+    });
+  }
 };
 var mysql = require('mysql');
 var dbconfig = require('../config/database');

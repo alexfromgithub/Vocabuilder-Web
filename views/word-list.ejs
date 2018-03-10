@@ -7,7 +7,15 @@
     <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        var table = $('#wordtable').DataTable();
+        var table = $('#wordtable').DataTable({
+          "columnDefs": [
+            {
+              "targets": [0],
+              "visible": false,
+              "searchable": false
+            }
+          ]
+        });
         $('#wordtable tbody').on('click', 'tr', function() {
           if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -25,12 +33,28 @@
             $("#editwordmodal").modal("show");
           }
         });
+
         $("#editwordmodal").on('show.bs.modal', function(event){
           var data = table.rows('.selected').data();
           $(this).find('#id').val(data[0][0]);
           $(this).find('#word').val(data[0][1]);
           $(this).find('#phonetic').val(data[0][2]);
           $(this).find('#meaning').val(data[0][3]);
+        });
+
+        $("#delete").on('click', function(ex) {
+          ex.preventDefault();
+          if (!table.rows('.selected').any()) {
+              $("#selectrowmodal2").modal("show");
+          }
+          else {
+            $("#deletewordmodal").modal("show");
+          }
+        });
+
+        $("#deletewordmodal").on('show.bs.modal', function() {
+          var data = table.rows('.selected').data();
+          $(this).find('#id').val(data[0][0]);
         });
       });
     </script>
@@ -50,7 +74,7 @@
           <button type="button" class="btn btn-primary btn-lg" id="edit">Edit</button>
         </div>
         <div class="col-3">
-          <button type="button" class="btn btn-danger btn-lg">Delete</button>
+          <button type="button" class="btn btn-danger btn-lg" id="delete">Delete</button>
         </div>
       </div>
       <div class="row top-buffer-20">

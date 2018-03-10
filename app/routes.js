@@ -115,6 +115,12 @@ module.exports = function(app, passport) {
     res.redirect('back');
   });
 
+  // don't know why I can't use delete method, it says cannot GET /deleteword
+  app.post('/deleteword', function(req,res) {
+    deleteWord(req.user.id, req.body.id);
+    res.redirect('back');
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
