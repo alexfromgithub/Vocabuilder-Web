@@ -7,7 +7,31 @@
     <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#wordtable').DataTable();
+        var table = $('#wordtable').DataTable();
+        $('#wordtable tbody').on('click', 'tr', function() {
+          if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+          } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+          }
+        });
+        $("#edit").on('click', function(ex) {
+          ex.preventDefault();
+          if (!table.rows('.selected').any()) {
+              $("#selectrowmodal").modal("show");
+          }
+          else {
+            $("#editwordmodal").modal("show");
+          }
+        });
+        $("#editwordmodal").on('show.bs.modal', function(event){
+          var data = table.rows('.selected').data();
+          $(this).find('#id').val(data[0][0]);
+          $(this).find('#word').val(data[0][1]);
+          $(this).find('#phonetic').val(data[0][2]);
+          $(this).find('#meaning').val(data[0][3]);
+        });
       });
     </script>
 </head>
@@ -23,7 +47,7 @@
           <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#importwordmodal">Import</button>
         </div>
         <div class="col-3">
-          <button type="button" class="btn btn-primary btn-lg">Edit</button>
+          <button type="button" class="btn btn-primary btn-lg" id="edit">Edit</button>
         </div>
         <div class="col-3">
           <button type="button" class="btn btn-danger btn-lg">Delete</button>
@@ -44,15 +68,27 @@
             </thead>
             <tbody>
               <% for (var i = 0; i < wordlist.length; i++) { %>
-              <tr>
-                <td><%= wordlist[i].id %></td>
-                <td><%= wordlist[i].word %></td>
-                <td><%= wordlist[i].phonetic %></td>
-                <td><%= wordlist[i].meaning %></td>
-                <td><%= wordlist[i].progress %></td>
-                <td><%= wordlist[i].dateadded.toLocaleDateString("en-US") %></td>
-              </tr>
-              <% } %>
+                <tr>
+                  <td>
+                    <%= wordlist[i].id %>
+                  </td>
+                  <td>
+                    <%= wordlist[i].word %>
+                  </td>
+                  <td>
+                    <%= wordlist[i].phonetic %>
+                  </td>
+                  <td>
+                    <%= wordlist[i].meaning %>
+                  </td>
+                  <td>
+                    <%= wordlist[i].progress %>
+                  </td>
+                  <td>
+                    <%= wordlist[i].dateadded.toLocaleDateString("en-US") %>
+                  </td>
+                </tr>
+                <% } %>
             </tbody>
           </table>
 

@@ -62,12 +62,12 @@ module.exports = function(app, passport) {
 
   app.post('/changename', function(req, res) {
     changeName(req.user.id, req.body.firstname, req.body.lastname);
-    res.redirect('profile');
+    res.redirect('back');
   });
 
   app.post('/changeemail', function(req, res) {
     changeEmail(req.user.id, req.body.email);
-    res.redirect('profile');
+    res.redirect('back');
   });
 
   app.post('/changepw', function(req, res) {
@@ -87,7 +87,7 @@ module.exports = function(app, passport) {
         req.flash('messageSuccess', 'Your password has been changed. Please \
         logout for your new password to take effect.');
       }
-      res.redirect('profile');
+      res.redirect('back');
     });
   });
 
@@ -107,8 +107,14 @@ module.exports = function(app, passport) {
 
   app.post('/addword', function(req,res) {
     addWord(req.user.id, req.body.word, req.body.phonetic, req.body.meaning);
-    res.redirect('word-list');
+    res.redirect('back');
   });
+
+  app.post('/editword', function(req,res) {
+    editWord(req.user.id, req.body.id, req.body.word, req.body.phonetic, req.body.meaning);
+    res.redirect('back');
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');

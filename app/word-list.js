@@ -19,6 +19,13 @@ module.exports = function(req, res) {
       }
     });
   }
+
+  editWord = function(userid, wordid, word, phonetic, meaning) {
+    connection.query("UPDATE ?? SET word = ?, phonetic = ?, meaning = ? WHERE id = ?",
+     [userid, word, phonetic, meaning, wordid], function(err, rows){
+      if (err) throw err;
+    });
+  }
 };
 var mysql = require('mysql');
 var dbconfig = require('../config/database');

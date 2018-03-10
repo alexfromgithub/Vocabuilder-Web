@@ -34,3 +34,7 @@
     color: #ffffff;
 }
 .form-control { width: 100%; }
+
+.modal-error {
+  background-color: #F2DEDE !important;
+}
