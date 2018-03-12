@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <% include partials/head %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#showmeaning').on('click', function() {
+          var meaning = document.getElementById('meaning');
+          meaning.innerHTML += "test";
+          this.disabled = true;
+          document.getElementById('btnRemember').disabled = false;
+          document.getElementById('btnDontRemember').disabled = false;
+        });
+      });
+    </script>
+</head>
+
+<body>
+  <% include partials/nav %>
+    <div class="container-fluid text-center top-buffer-50">
+      <p>Number of words left: 3</p>
+      <div class="review-word">
+        Test
+      </div>
+      <textarea class="top-buffer-20 review-meaning" rows="5" cols="40" id="meaning"></textarea>
+      <div class="row top-buffer-20">
+        <button type="button" class="btn btn-default btn-lg btn-review" id="showmeaning">Show Meaning</button>
+      </div>
+      <div class="row top-buffer-20">
+        <div class="col-md-6 offset-md-3">
+          <button type="button" class="btn btn-success btn-lg btn-remember" id="btnRemember" disabled>I remember</button>
+          <button type="button" class="btn btn-danger btn-lg btn-remember" id="btnDontRemember" disabled>I don't remember</button>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>

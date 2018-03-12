@@ -38,3 +38,22 @@
 .modal-error {
   background-color: #F2DEDE !important;
 }
+
+.review-word {
+  font-size: 36pt;
+}
+
+.review-meaning {
+  font-size: 24pt;
+}
+
+.btn-review {
+  display: block;
+  margin: 0 auto;
+}
+
+.btn-remember {
+  width: 50%;
+  float: left;
+  padding: 1%;
+}

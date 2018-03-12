@@ -5,8 +5,14 @@ module.exports = function(req, res) {
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
     today = yyyy + '-' + mm + '-' + dd;
-    connection.query("INSERT INTO ?? ( word, phonetic, meaning, progress, dateadded ) values (?,?,?,?,?)",
-     [userid, word, phonetic, meaning, 0, today], function(err, rows) {
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1);
+    dd = tomorrow.getDate();
+    mm = tomorrow.getMonth()+1;
+    yyyy = tomorrow.getFullYear();
+    tomorrow = yyyy + '-' + mm + '-' + dd;
+    connection.query("INSERT INTO ?? ( word, phonetic, meaning, progress, dateadded, daterev, datecomp ) values (?,?,?,?,?,?,?)",
+     [userid, word, phonetic, meaning, 0, today, tomorrow, "1000-1-1"], function(err, rows) {
       if (err) throw err;
     });
   }
@@ -31,6 +37,14 @@ module.exports = function(req, res) {
     connection.query("DELETE FROM ?? WHERE id = ?", [userid, wordid], function(err, rows){
       if (err) throw err;
     });
+  }
+
+  getRevWordList = function(userid) {
+    connection.query("SELECT * FROM ?? WHERE DATE_FORMAT(daterev, '%Y-%m-%d') = CURDATE()",
+     [userid], function(err, rows){
+       if (err) throw err;
+       console.log(rows);
+     });
   }
 };
 var mysql = require('mysql');

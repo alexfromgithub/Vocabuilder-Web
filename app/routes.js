@@ -93,7 +93,7 @@ module.exports = function(app, passport) {
 
   app.get('/word-list', function(req, res) {
     if (req.isAuthenticated()) {
-      getWordList(req.user.id, function(err, data){
+      getWordList(req.user.id, function(err, data) {
         res.render('word-list', {
           title: 'Word List',
           user: req.user,
@@ -105,22 +105,30 @@ module.exports = function(app, passport) {
     }
   });
 
-  app.post('/addword', function(req,res) {
+  app.post('/addword', function(req, res) {
     addWord(req.user.id, req.body.word, req.body.phonetic, req.body.meaning);
     res.redirect('back');
   });
 
-  app.post('/editword', function(req,res) {
+  app.post('/editword', function(req, res) {
     editWord(req.user.id, req.body.id, req.body.word, req.body.phonetic, req.body.meaning);
     res.redirect('back');
   });
 
   // don't know why I can't use delete method, it says cannot GET /deleteword
-  app.post('/deleteword', function(req,res) {
+  app.post('/deleteword', function(req, res) {
     deleteWord(req.user.id, req.body.id);
     res.redirect('back');
   });
 
+  app.get('/review', function(req, res) {
+    if (req.isAuthenticated()) {
+      getRevWordList(req.user.id);
+      res.render('review', {
+        title: "Review"
+      });
+    } else res.redirect('/');
+  });
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
