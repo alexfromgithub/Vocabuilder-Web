@@ -39,11 +39,11 @@ module.exports = function(req, res) {
     });
   }
 
-  getRevWordList = function(userid) {
-    connection.query("SELECT * FROM ?? WHERE DATE_FORMAT(daterev, '%Y-%m-%d') = CURDATE()",
+  getRevWordList = function(userid, callback) {
+    connection.query("SELECT * FROM ?? WHERE DATE_FORMAT(daterev, '%Y-%m-%d') <= CURDATE()",
      [userid], function(err, rows){
        if (err) throw err;
-       console.log(rows);
+       return callback(null, rows);
      });
   }
 };

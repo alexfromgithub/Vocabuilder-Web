@@ -123,11 +123,16 @@ module.exports = function(app, passport) {
 
   app.get('/review', function(req, res) {
     if (req.isAuthenticated()) {
-      getRevWordList(req.user.id);
-      res.render('review', {
-        title: "Review"
+      getRevWordList(req.user.id, function(err, data) {
+        res.render('review', {
+          title: 'Review',
+          user: req.user,
+          wordlist: data
+        });
       });
-    } else res.redirect('/');
+    } else {
+      res.redirect('/');
+    }
   });
   app.get('/logout', function(req, res) {
     req.logout();

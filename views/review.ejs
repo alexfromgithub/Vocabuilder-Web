@@ -5,12 +5,53 @@
   <% include partials/head %>
     <script type="text/javascript">
       $(document).ready(function() {
-        $('#showmeaning').on('click', function() {
+        var wordlist = <%- JSON.stringify(wordlist) %>;
+        console.log(wordlist);
+        var word = document.getElementById('word');
+        var numRemain = document.getElementById('numRemain');
+        var showMean = document.getElementById('showMean');
+        var rem = document.getElementById('rem');
+        var dontRem = document.getElementById('dontRem');
+        numRemain.innerHTML = wordlist.length;
+        if (wordlist.length > 0) {
+          word.innerHTML = wordlist[0].word;
+        } else {
+          word.style.color = "red";
+          word.innerHTML = "There are no words to review";
+          document.getElementById('showMean').disabled = true;
+        }
+        $('#showMean').on('click', function() {
           var meaning = document.getElementById('meaning');
-          meaning.innerHTML += "test";
+          if (wordlist.length > 0) {
+            meaning.innerHTML = wordlist[0].meaning;
+          }
           this.disabled = true;
-          document.getElementById('btnRemember').disabled = false;
-          document.getElementById('btnDontRemember').disabled = false;
+          rem.disabled = false;
+          dontRem.disabled = false;
+        });
+        $('#rem').on('click', function() {
+          wordlist.shift();
+          this.disabled = true;
+          dontRem.disabled = true;
+          meaning.innerHTML = "";
+          numRemain.innerHTML = wordlist.length;
+          if (wordlist.length > 0) {
+            word.innerHTML = wordlist[0].word;
+            showMean.disabled = false;
+          } else {
+            word.style.color = "red";
+            word.innerHTML = "There are no words to review";
+            showMean.disabled = true;
+          }
+        });
+        $('#dontRem').on('click', function() {
+          wordlist.push(wordlist.shift());
+          this.disabled = true;
+          rem.disabled = true;
+          meaning.innerHTML = "";
+          numRemain.innerHTML = wordlist.length;
+          word.innerHTML = wordlist[0].word;
+          showMean.disabled = false;
         });
       });
     </script>
@@ -19,18 +60,17 @@
 <body>
   <% include partials/nav %>
     <div class="container-fluid text-center top-buffer-50">
-      <p>Number of words left: 3</p>
-      <div class="review-word">
-        Test
-      </div>
-      <textarea class="top-buffer-20 review-meaning" rows="5" cols="40" id="meaning"></textarea>
+      <label>Number of words left:</label>
+      <label id="numRemain">3</label>
+      <div class="review-word" id="word"></div>
+      <textarea class="top-buffer-20 review-meaning" rows="5" cols="40" id="meaning" readonly></textarea>
       <div class="row top-buffer-20">
-        <button type="button" class="btn btn-default btn-lg btn-review" id="showmeaning">Show Meaning</button>
+        <button type="button" class="btn btn-default btn-lg btn-review" id="showMean">Show Meaning</button>
       </div>
       <div class="row top-buffer-20">
         <div class="col-md-6 offset-md-3">
-          <button type="button" class="btn btn-success btn-lg btn-remember" id="btnRemember" disabled>I remember</button>
-          <button type="button" class="btn btn-danger btn-lg btn-remember" id="btnDontRemember" disabled>I don't remember</button>
+          <button type="button" class="btn btn-success btn-lg btn-remember" id="rem" disabled>I remember</button>
+          <button type="button" class="btn btn-danger btn-lg btn-remember" id="dontRem" disabled>I don't remember</button>
         </div>
       </div>
     </div>
