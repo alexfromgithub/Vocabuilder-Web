@@ -6,7 +6,6 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var wordlist = <%- JSON.stringify(wordlist) %>;
-        console.log(wordlist);
         var word = document.getElementById('word');
         var numRemain = document.getElementById('numRemain');
         var showMean = document.getElementById('showMean');
@@ -30,6 +29,13 @@
           dontRem.disabled = false;
         });
         $('#rem').on('click', function() {
+          $.ajax({
+            url: "/remword",
+            type: "post",
+            data: {
+              id: wordlist[0].id
+            }
+          });
           wordlist.shift();
           this.disabled = true;
           dontRem.disabled = true;
@@ -61,7 +67,7 @@
   <% include partials/nav %>
     <div class="container-fluid text-center top-buffer-50">
       <label>Number of words left:</label>
-      <label id="numRemain">3</label>
+      <label id="numRemain"></label>
       <div class="review-word" id="word"></div>
       <textarea class="top-buffer-20 review-meaning" rows="5" cols="40" id="meaning" readonly></textarea>
       <div class="row top-buffer-20">

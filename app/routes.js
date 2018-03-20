@@ -134,6 +134,11 @@ module.exports = function(app, passport) {
       res.redirect('/');
     }
   });
+
+  app.post('/remword', function(req, res) {
+    remword(req.user.id, req.body.id);
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -147,6 +152,7 @@ var connection = mysql.createConnection(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
 require('./profile.js')();
 require('./word-list.js')();
+require('./review.js')();
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
