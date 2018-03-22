@@ -14,6 +14,7 @@
         numRemain.innerHTML = wordlist.length;
         if (wordlist.length > 0) {
           word.innerHTML = wordlist[0].word;
+          wordlist[0].numDontRem = 0;
         } else {
           word.style.color = "red";
           word.innerHTML = "There are no words to review";
@@ -33,9 +34,11 @@
             url: "/remword",
             type: "post",
             data: {
-              id: wordlist[0].id
+              id: wordlist[0].id,
+              numDontRem: wordlist[0].numDontRem
             }
           });
+          console.log(wordlist[0].numDontRem);
           wordlist.shift();
           this.disabled = true;
           dontRem.disabled = true;
@@ -51,6 +54,8 @@
           }
         });
         $('#dontRem').on('click', function() {
+          wordlist[0].numDontRem++;
+          console.log(wordlist[0].numDontRem);
           wordlist.push(wordlist.shift());
           this.disabled = true;
           rem.disabled = true;

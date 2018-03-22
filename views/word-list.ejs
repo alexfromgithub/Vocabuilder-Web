@@ -106,7 +106,10 @@
                     <%= wordlist[i].meaning %>
                   </td>
                   <td>
-                    <%= wordlist[i].progress %>
+                    <!-- <%= wordlist[i].progress %> -->
+                    <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: <%- wordlist[i].progress %>0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"></div>
+                    </div>
                   </td>
                   <td>
                     <%= wordlist[i].dateadded.toLocaleDateString("en-US") %>

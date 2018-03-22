@@ -1,39 +1,52 @@
 .btn-primary {
   background-color: #5B9BD5 !important;
 }
+
 .top-buffer-20 {
-  margin-top:20px;
+  margin-top: 20px;
 }
+
 .top-buffer-50 {
-  margin-top:50px;
+  margin-top: 50px;
 }
+
 .table-borderless td, .table-borderless th {
-    border: none;
+  border: none;
 }
+
 .form-inline input {
-   margin-left: 10px;
+  margin-left: 10px;
 }
+
 .form-inline * {
   margin-bottom: 10px;
 }
+
 .navbar-custom {
-    background-color: #5B9BD5;
+  background-color: #5B9BD5;
 }
+
 /* change the brand and text color */
-.navbar-custom .navbar-brand,
-.navbar-custom .navbar-text {
-    color: rgba(255,255,255,.8);
+
+.navbar-custom .navbar-brand, .navbar-custom .navbar-text {
+  color: rgba(255, 255, 255, .8);
 }
+
 /* change the link color */
+
 .navbar-custom .navbar-nav .nav-link {
-    color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, .5);
 }
+
 /* change the color of active or hovered links */
-.navbar-custom .nav-item.active .nav-link,
-.navbar-custom .nav-item:hover .nav-link {
-    color: #ffffff;
+
+.navbar-custom .nav-item.active .nav-link, .navbar-custom .nav-item:hover .nav-link {
+  color: #ffffff;
 }
-.form-control { width: 100%; }
+
+.form-control {
+  width: 100%;
+}
 
 .modal-error {
   background-color: #F2DEDE !important;

@@ -42,8 +42,7 @@ module.exports = function(passport) {
               password: bcrypt.hashSync(password, null, null),
             };
             var insertQuery = "INSERT INTO users ( username, password, firstname, lastname, email ) values (?,?,?,?,?)";
-            connection.query(insertQuery, [newUserMysql.username, newUserMysql.password
-              , req.body.firstname, req.body.lastname, req.body.email], function(err, rows) {
+            connection.query(insertQuery, [newUserMysql.username, newUserMysql.password, req.body.firstname, req.body.lastname, req.body.email], function(err, rows) {
               newUserMysql.id = rows.insertId;
               console.log(rows.insertId);
               var tablename = rows.insertId;
@@ -51,8 +50,8 @@ module.exports = function(passport) {
                 word VARCHAR(30), phonetic VARCHAR(10), meaning VARCHAR(255), \
                 progress TINYINT, dateadded DATE, daterev DATE, datecomp DATE, \
                 UNIQUE INDEX `id_UNIQUE` (`id` ASC))', [tablename], function(err, rows) {
-                  if (err) throw err;
-                });
+                if (err) throw err;
+              });
               return done(null, newUserMysql);
             });
           }

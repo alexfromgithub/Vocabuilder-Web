@@ -136,7 +136,7 @@ module.exports = function(app, passport) {
   });
 
   app.post('/remword', function(req, res) {
-    remword(req.user.id, req.body.id);
+    remword2(req.user.id, req.body);
   });
 
   app.get('/logout', function(req, res) {

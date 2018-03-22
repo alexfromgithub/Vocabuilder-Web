@@ -11,8 +11,9 @@ module.exports = function(req, res) {
     mm = tomorrow.getMonth()+1;
     yyyy = tomorrow.getFullYear();
     tomorrow = yyyy + '-' + mm + '-' + dd;
+    // review date is set to today for testing purpose
     connection.query("INSERT INTO ?? ( word, phonetic, meaning, progress, dateadded, daterev, datecomp ) values (?,?,?,?,?,?,?)",
-     [userid, word, phonetic, meaning, 0, today, tomorrow, "1000-1-1"], function(err, rows) {
+     [userid, word, phonetic, meaning, 0, today, today, "1000-1-1"], function(err, rows) {
       if (err) throw err;
     });
   }
@@ -40,7 +41,8 @@ module.exports = function(req, res) {
   }
 
   getRevWordList = function(userid, callback) {
-    connection.query("SELECT * FROM ?? WHERE DATE_FORMAT(daterev, '%Y-%m-%d') <= CURDATE()",
+    connection.query("SELECT * FROM ?? WHERE DATE_FORMAT(daterev, '%Y-%m-%d') <= CURDATE() \
+     and progress < 10",
      [userid], function(err, rows){
        if (err) throw err;
        return callback(null, rows);
