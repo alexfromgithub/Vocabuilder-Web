@@ -47,17 +47,13 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/profile', function(req, res) {
-    if (req.isAuthenticated()) {
-      res.render('profile', {
-        title: 'Profile',
-        messageSuccess: req.flash('messageSuccess'),
-        messageFail: req.flash('messageFail'),
-        user: req.user
-      });
-    } else {
-      res.redirect('/');
-    }
+  app.get('/profile', isLoggedIn, function(req, res) {
+    res.render('profile', {
+      title: 'Profile',
+      messageSuccess: req.flash('messageSuccess'),
+      messageFail: req.flash('messageFail'),
+      user: req.user
+    });
   });
 
   app.post('/changename', function(req, res) {
@@ -91,18 +87,14 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/word-list', function(req, res) {
-    if (req.isAuthenticated()) {
-      getWordList(req.user.id, function(err, data) {
-        res.render('word-list', {
-          title: 'Word List',
-          user: req.user,
-          wordlist: data
-        });
+  app.get('/word-list', isLoggedIn, function(req, res) {
+    getWordList(req.user.id, function(err, data) {
+      res.render('word-list', {
+        title: 'Word List',
+        user: req.user,
+        wordlist: data
       });
-    } else {
-      res.redirect('/');
-    }
+    });
   });
 
   app.post('/addword', function(req, res) {
@@ -121,22 +113,25 @@ module.exports = function(app, passport) {
     res.redirect('back');
   });
 
-  app.get('/review', function(req, res) {
-    if (req.isAuthenticated()) {
-      getRevWordList(req.user.id, function(err, data) {
-        res.render('review', {
-          title: 'Review',
-          user: req.user,
-          wordlist: data
-        });
+  app.get('/review', isLoggedIn, function(req, res) {
+    getRevWordList(req.user.id, function(err, data) {
+      res.render('review', {
+        title: 'Review',
+        user: req.user,
+        wordlist: data
       });
-    } else {
-      res.redirect('/');
-    }
+    });
   });
 
   app.post('/remword', function(req, res) {
     remword2(req.user.id, req.body);
+  });
+
+  app.get('/dictionary', isLoggedIn, function(req, res) {
+      res.render('dictionary', {
+        title: 'Dictionary',
+        user: req.user
+      });
   });
 
   app.get('/logout', function(req, res) {

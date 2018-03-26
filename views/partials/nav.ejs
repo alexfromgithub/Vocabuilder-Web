@@ -10,9 +10,15 @@
             <a class="nav-link" href="word-list">Word List</a>
           </li>
           <% } %>
+          <% if (title === 'Dictionary') { %>
+          <li class="nav-item active">
+            <a class="nav-link" href="dictionary">Dictionary</a>
+          </li>
+          <% } else { %>
             <li class="nav-item">
-              <a class="nav-link" href="#">Dictionary</a>
+              <a class="nav-link" href="dictionary">Dictionary</a>
             </li>
+            <% } %>
             <% if (title === 'Review') { %>
             <li class="nav-item active">
               <a class="nav-link" href="review">Review</a>
