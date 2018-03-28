@@ -98,12 +98,12 @@ module.exports = function(app, passport) {
   });
 
   app.post('/addword', function(req, res) {
-    addWord(req.user.id, req.body.word, req.body.phonetic, req.body.meaning);
+    addWord(req.user.id, req.body.word, req.body.pos, req.body.meaning);
     res.redirect('back');
   });
 
   app.post('/editword', function(req, res) {
-    editWord(req.user.id, req.body.id, req.body.word, req.body.phonetic, req.body.meaning);
+    editWord(req.user.id, req.body.id, req.body.word, req.body.pos, req.body.meaning);
     res.redirect('back');
   });
 
@@ -134,6 +134,12 @@ module.exports = function(app, passport) {
       });
   });
 
+  app.post('/searchword', function(req, res) {
+    searchword(req.body.word, function(err, data){
+      res.send(data);
+    });
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -148,6 +154,7 @@ connection.query('USE ' + dbconfig.database);
 require('./profile.js')();
 require('./word-list.js')();
 require('./review.js')();
+require('./dictionary.js')();
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())

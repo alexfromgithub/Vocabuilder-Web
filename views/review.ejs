@@ -38,7 +38,6 @@
               numDontRem: wordlist[0].numDontRem
             }
           });
-          console.log(wordlist[0].numDontRem);
           wordlist.shift();
           this.disabled = true;
           dontRem.disabled = true;
@@ -55,7 +54,6 @@
         });
         $('#dontRem').on('click', function() {
           wordlist[0].numDontRem++;
-          console.log(wordlist[0].numDontRem);
           wordlist.push(wordlist.shift());
           this.disabled = true;
           rem.disabled = true;

@@ -38,7 +38,7 @@
           var data = table.rows('.selected').data();
           $(this).find('#id').val(data[0][0]);
           $(this).find('#word').val(data[0][1]);
-          $(this).find('#phonetic').val(data[0][2]);
+          $(this).find('#pos').val(data[0][2]);
           $(this).find('#meaning').val(data[0][3]);
         });
 
@@ -84,7 +84,7 @@
               <tr>
                 <th>ID</th>
                 <th>Word</th>
-                <th>Phonetic<br>Symbol</th>
+                <th>Part of Speech</th>
                 <th>Meaning</th>
                 <th>Progress</th>
                 <th>Date added</th>
@@ -100,7 +100,7 @@
                     <%= wordlist[i].word %>
                   </td>
                   <td>
-                    <%= wordlist[i].phonetic %>
+                    <%= wordlist[i].pos %>
                   </td>
                   <td>
                     <%= wordlist[i].meaning %>

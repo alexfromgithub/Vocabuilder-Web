@@ -1,5 +1,5 @@
 module.exports = function(req, res) {
-  addWord = function(userid, word, phonetic, meaning) {
+  addWord = function(userid, word, pos, meaning) {
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
@@ -12,8 +12,8 @@ module.exports = function(req, res) {
     yyyy = tomorrow.getFullYear();
     tomorrow = yyyy + '-' + mm + '-' + dd;
     // review date is set to today for testing purpose
-    connection.query("INSERT INTO ?? ( word, phonetic, meaning, progress, dateadded, daterev, datecomp ) values (?,?,?,?,?,?,?)",
-     [userid, word, phonetic, meaning, 0, today, today, "1000-1-1"], function(err, rows) {
+    connection.query("INSERT INTO ?? ( word, pos, meaning, progress, dateadded, daterev, datecomp ) values (?,?,?,?,?,?,?)",
+     [userid, word, pos, meaning, 0, today, today, "1000-1-1"], function(err, rows) {
       if (err) throw err;
     });
   }
@@ -27,9 +27,9 @@ module.exports = function(req, res) {
     });
   }
 
-  editWord = function(userid, wordid, word, phonetic, meaning) {
-    connection.query("UPDATE ?? SET word = ?, phonetic = ?, meaning = ? WHERE id = ?",
-     [userid, word, phonetic, meaning, wordid], function(err, rows){
+  editWord = function(userid, wordid, word, pos, meaning) {
+    connection.query("UPDATE ?? SET word = ?, pos = ?, meaning = ? WHERE id = ?",
+     [userid, word, pos, meaning, wordid], function(err, rows){
       if (err) throw err;
     });
   }

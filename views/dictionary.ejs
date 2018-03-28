@@ -3,6 +3,59 @@
 
 <head>
   <% include partials/head %>
+  <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css" />
+  <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $('#results').wrap('<div id="hide" style="display:none"/>');
+        var results = $('#results').DataTable();
+        $("#word").keyup(function(event) {
+          if (event.keyCode === 13) {
+            $("#search").click();
+          }
+        });
+        $('#search').on('click', function() {
+          $.ajax({
+            url: "/searchword",
+            type: "post",
+            data: {
+              word: $("#word").val()
+            }
+          }).done(function(data) {
+            $('#hide').css( 'display', 'block' );
+            results.clear();
+            for (var i = 0; i < data.length; i++) {
+              data[i].word = data[i].word.charAt(0).toLowerCase() + data[i].word.slice(1);
+              if (data[i].wordtype === 'v. i.' || data[i].wordtype ==='v. t.') {
+                data[i].wordtype = 'v.';
+              }
+            }
+            if (data.length === 0) {
+              results.row.add(['',$("#word").val(),'','Sorry, the database does not have the word "'
+               + $("#word").val() + '".']).draw(true);
+            }
+            else if (data.length === 1) {
+              results.row.add([
+                '<input type="radio" checked>',
+                data[0].word,
+                data[0].wordtype.slice(0, -1),
+                data[0].definition
+              ]).draw(true);
+            }
+            else {
+              for (var i = 0; i < data.length; i++) {
+                results.row.add([
+                  '<input type="radio">',
+                  data[i].word,
+                  data[i].wordtype.slice(0, -1),
+                  data[i].definition
+                ]).draw(true);
+              }
+            }
+          });
+        });
+      });
+    </script>
 </head>
 
 <body>
@@ -10,21 +63,26 @@
     <div class="container-fluid text-center top-buffer-50">
       <div class="row">
         <div class="col-md-6 offset-md-3">
-          <form class="" method="post" action="/searchword">
-            <div class="input-group">
-              <input type="text" class="form-control" id="word" name="word"
-              placeholder="Search for a word">
-              <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary ml-2">Search</button>
+          <div class="input-group">
+            <input type="text" class="form-control" id="word" name="word" placeholder="Search for a word">
+            <span class="input-group-btn">
+                <button type="button" id="search" class="btn btn-primary ml-2">Search</button>
               </span>
-            </div>
-            <!-- <button type="submit" class="btn btn-primary">Search</button> -->
-          </form>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
+      <div class="row top-buffer-20">
+        <div class="col-md-8 offset-md-2">
           <table id="results" class="display" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th></th>
+              <th>Word</th>
+              <th>Part of Speech</th>
+              <th>Meaning</th>
+            </tr>
+            </thead>
+
           </table>
         </div>
       </div>
