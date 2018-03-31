@@ -58,11 +58,13 @@ module.exports = function(app, passport) {
 
   app.post('/changename', function(req, res) {
     changeName(req.user.id, req.body.firstname, req.body.lastname);
+    req.flash('messageSuccess', 'Your name has been changed.');
     res.redirect('back');
   });
 
   app.post('/changeemail', function(req, res) {
     changeEmail(req.user.id, req.body.email);
+    req.flash('messageSuccess', 'Your email has been changed.');
     res.redirect('back');
   });
 
@@ -130,7 +132,8 @@ module.exports = function(app, passport) {
   app.get('/dictionary', isLoggedIn, function(req, res) {
       res.render('dictionary', {
         title: 'Dictionary',
-        user: req.user
+        user: req.user,
+        message: req.flash('messageSuccess')
       });
   });
 
@@ -138,6 +141,12 @@ module.exports = function(app, passport) {
     searchword(req.body.word, function(err, data){
       res.send(data);
     });
+  });
+
+  app.post('/addworddict', function(req, res) {
+    addWord(req.user.id, req.body.word, req.body.pos, req.body.meaning);
+    req.flash('messageSuccess', 'Word added successfully.');
+    res.redirect('back');
   });
 
   app.get('/logout', function(req, res) {

@@ -3,12 +3,12 @@
 
 <head>
   <% include partials/head %>
-  <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css" />
-  <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
-  <script type="text/javascript" charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="node_modules/datatables.net-dt/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8">
       $(document).ready(function() {
-        $('#results').wrap('<div id="hide" style="display:none"/>');
-        var results = $('#results').DataTable();
+        $('#table').wrap('<div id="hide" style="display:none"/>');
+        var table = $('#table').DataTable();
         $("#word").keyup(function(event) {
           if (event.keyCode === 13) {
             $("#search").click();
@@ -22,30 +22,22 @@
               word: $("#word").val()
             }
           }).done(function(data) {
-            $('#hide').css( 'display', 'block' );
-            results.clear();
+            $('#hide').css('display', 'block');
+            $('#add').css('display', "block");
+            table.clear();
             for (var i = 0; i < data.length; i++) {
               data[i].word = data[i].word.charAt(0).toLowerCase() + data[i].word.slice(1);
-              if (data[i].wordtype === 'v. i.' || data[i].wordtype ==='v. t.') {
+              if (data[i].wordtype === 'v. i.' || data[i].wordtype === 'v. t.') {
                 data[i].wordtype = 'v.';
               }
             }
             if (data.length === 0) {
-              results.row.add(['',$("#word").val(),'','Sorry, the database does not have the word "'
-               + $("#word").val() + '".']).draw(true);
-            }
-            else if (data.length === 1) {
-              results.row.add([
-                '<input type="radio" checked>',
-                data[0].word,
-                data[0].wordtype.slice(0, -1),
-                data[0].definition
+              table.row.add([$("#word").val(), '', 'Sorry, the database does not have the word "' +
+                $("#word").val() + '".'
               ]).draw(true);
-            }
-            else {
+            } else {
               for (var i = 0; i < data.length; i++) {
-                results.row.add([
-                  '<input type="radio">',
+                table.row.add([
                   data[i].word,
                   data[i].wordtype.slice(0, -1),
                   data[i].definition
@@ -54,15 +46,47 @@
             }
           });
         });
+        $('#table tbody').on('click', 'tr', function() {
+          if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+          } else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+          }
+        });
+        $('#add').on('click', function(ex) {
+          ex.preventDefault();
+          var data = table.rows('.selected').data();
+          if (!table.rows('.selected').any()) {
+            $("#selectrowmodal").modal("show");
+          }
+          // don't want user to add a word that has meaning "Sorry, the database..."
+          else if (data[0][2].indexOf("Sorry, the database does not have the word") ===
+            -1) {
+            $("#addwordmodal").modal("show");
+          }
+        });
+        $('#addwordmodal').on('show.bs.modal', function() {
+          var data = table.rows('.selected').data();
+          $(this).find('#word').val(data[0][0]);
+          $(this).find('#pos').val(data[0][1]);
+          // don't know why there are extra spaces when showing in the modal
+          $(this).find('#meaning').val(data[0][2].replace(/\s+/g, ' ').trim());
+        });
       });
     </script>
 </head>
 
 <body>
   <% include partials/nav %>
-    <div class="container-fluid text-center top-buffer-50">
+    <div class="container-fluid text-center top-buffer-20">
       <div class="row">
         <div class="col-md-6 offset-md-3">
+          <% if (message.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+              <%= message %>
+            </div>
+            <% } %>
           <div class="input-group">
             <input type="text" class="form-control" id="word" name="word" placeholder="Search for a word">
             <span class="input-group-btn">
@@ -73,19 +97,25 @@
       </div>
       <div class="row top-buffer-20">
         <div class="col-md-8 offset-md-2">
-          <table id="results" class="display" cellspacing="0" width="100%">
+          <table id="table" class="display" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th></th>
-              <th>Word</th>
-              <th>Part of Speech</th>
-              <th>Meaning</th>
-            </tr>
+                <th>Word</th>
+                <th>Part of Speech</th>
+                <th>Meaning</th>
+              </tr>
             </thead>
-
+            <tbody>
+            </tbody>
           </table>
         </div>
       </div>
+      <div class="row top-buffer-20">
+        <div class="col-md-6 offset-md-3">
+          <button type="button" id="add" style="display:none; margin: 0 auto;" class="btn btn-success btn-lg display" data-toggle="modal" data-target="#adddictmodal">Add</button>
+        </div>
+      </div>
+      <% include modals/dictionary %>
     </div>
 </body>
 
