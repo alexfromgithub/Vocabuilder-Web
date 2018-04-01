@@ -149,6 +149,10 @@ module.exports = function(app, passport) {
     res.redirect('back');
   });
 
+  app.get('/greword', function(req, res) {
+    res.send(fs.readFileSync('public/txt/gre.txt', 'utf8'));
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -159,6 +163,7 @@ var mysql = require('mysql');
 var dbconfig = require('../config/database');
 var bcrypt = require('bcrypt-nodejs');
 var connection = mysql.createConnection(dbconfig.connection);
+var fs = require('fs');
 connection.query('USE ' + dbconfig.database);
 require('./profile.js')();
 require('./word-list.js')();

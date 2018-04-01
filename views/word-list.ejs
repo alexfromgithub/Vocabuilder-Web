@@ -16,6 +16,8 @@
             }
           ]
         });
+        var importtable = $('#importtable').DataTable();
+        var gre = [];
         $('#wordtable tbody').on('click', 'tr', function() {
           if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -23,6 +25,9 @@
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
           }
+        });
+        $('#importtable tbody').on('click', 'tr', function() {
+          $(this).toggleClass('selected');
         });
         $("#edit").on('click', function(ex) {
           ex.preventDefault();
@@ -55,6 +60,30 @@
         $("#deletewordmodal").on('show.bs.modal', function() {
           var data = table.rows('.selected').data();
           $(this).find('#id').val(data[0][0]);
+        });
+
+        $("#gre").on('click', function(){
+          $.ajax({
+            url: "/greword",
+            type: "get"
+          }).done(function(data) {
+            if (gre.length == 0) {
+              gre = data.split(/\r?\n/);
+              for (var i = 0; i < gre.length; i++) {
+                gre[i] = gre[i].split(/\r?\t/);
+                importtable.row.add([
+                  gre[i][0],
+                  gre[i][1],
+                  gre[i][2]
+                ]).draw(true);
+              }
+            }
+            $("#importtablemodal").modal("show");
+          });
+        });
+
+        $('#add').on('click', function() {
+          console.log(importtable.rows('.selected').data());
         });
       });
     </script>

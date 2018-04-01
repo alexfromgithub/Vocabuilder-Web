@@ -64,7 +64,7 @@
   font-size: 24pt;
 }
 
-.btn-review {
+.btn-middle {
   display: block;
   margin: 0 auto;
 }
@@ -73,4 +73,27 @@
   width: 50%;
   float: left;
   padding: 1%;
+}
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.modal-lg {
+    max-width: 80% !important;
 }
