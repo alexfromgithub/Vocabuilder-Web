@@ -16,8 +16,8 @@
             }
           ]
         });
-        var importtable = $('#importtable').DataTable();
-        var gre = [];
+        var importtable;
+        var gre = [], sat = [], toefl = [];
         $('#wordtable tbody').on('click', 'tr', function() {
           if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -67,23 +67,85 @@
             url: "/greword",
             type: "get"
           }).done(function(data) {
-            if (gre.length == 0) {
+            if (importtable != null) importtable.destroy();
+            if (gre.length === 0) {
               gre = data.split(/\r?\n/);
               for (var i = 0; i < gre.length; i++) {
                 gre[i] = gre[i].split(/\r?\t/);
-                importtable.row.add([
-                  gre[i][0],
-                  gre[i][1],
-                  gre[i][2]
-                ]).draw(true);
               }
             }
+            $('#importtitle').text('GRE Word List');
+            importtable = $('#importtable').DataTable({
+              data: gre,
+              columnDefs: [
+                { "targets": [1,2], "searchable": false }
+              ]
+            });
+            $("#importtablemodal").modal("show");
+          });
+        });
+
+        $("#sat").on('click', function(){
+          $.ajax({
+            url: "/satword",
+            type: "get"
+          }).done(function(data) {
+            if (importtable != null) importtable.destroy();
+            if (sat.length === 0) {
+              sat = data.split(/\r?\n/);
+              for (var i = 0; i < sat.length; i++) {
+                sat[i] = sat[i].split("|");
+              }
+            }
+            $('#importtitle').text('SAT Word List');
+            importtable = $('#importtable').DataTable({
+              data: sat,
+              columnDefs: [
+                { "targets": [1,2], "searchable": false }
+              ]
+            });
+            $("#importtablemodal").modal("show");
+          });
+        });
+
+        $("#toefl").on('click', function(){
+          $.ajax({
+            url: "/toeflword",
+            type: "get"
+          }).done(function(data) {
+            if (importtable != null) importtable.destroy();
+            if (toefl.length === 0) {
+              toefl = data.split(/\r?\n/);
+              for (var i = 0; i < toefl.length; i++) {
+                toefl[i] = toefl[i].split(": ");
+                toefl[i].splice(1, 0, "");
+              }
+            }
+            $('#importtitle').text('TOEFL Word List');
+            importtable = $('#importtable').DataTable({
+              data: toefl,
+              columnDefs: [
+                { "targets": [1, 2], "searchable": false }
+              ]
+            });
             $("#importtablemodal").modal("show");
           });
         });
 
         $('#add').on('click', function() {
-          console.log(importtable.rows('.selected').data());
+          var data = [];
+          for (var i = 0; i < importtable.rows('.selected').data().length; i++) {
+            data.push(importtable.rows('.selected').data()[i]);
+          }
+          $.ajax({
+            url: "/addwords",
+            type: "post",
+            data: {
+              words: data
+            }
+          }).done(function(){
+            location.reload();
+          });
         });
       });
     </script>

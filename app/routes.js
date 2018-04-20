@@ -149,8 +149,23 @@ module.exports = function(app, passport) {
     res.redirect('back');
   });
 
+  app.post('/addwords', function(req,res) {
+    for(var i = 0; i < req.body.words.length; i++) {
+      addWord(req.user.id, req.body.words[i][0], req.body.words[i][1], req.body.words[i][2]);
+    }
+    res.redirect('back');
+  });
+
   app.get('/greword', function(req, res) {
     res.send(fs.readFileSync('public/txt/gre.txt', 'utf8'));
+  });
+
+  app.get('/satword', function(req, res) {
+    res.send(fs.readFileSync('public/txt/sat.txt', 'utf8'));
+  });
+
+  app.get('/toeflword', function(req, res) {
+    res.send(fs.readFileSync('public/txt/toefl.txt', 'utf8'));
   });
 
   app.get('/logout', function(req, res) {
