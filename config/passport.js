@@ -48,7 +48,7 @@ module.exports = function(passport) {
               var tablename = rows.insertId;
               connection.query('CREATE TABLE ?? (id INT AUTO_INCREMENT PRIMARY KEY, \
                 word VARCHAR(30), pos VARCHAR(10), meaning VARCHAR(255), \
-                progress TINYINT, dateadded DATE, daterev DATE, datecomp DATE, \
+                progress TINYINT, dateadded DATE, daterev DATE, \
                 UNIQUE INDEX `id_UNIQUE` (`id` ASC))', [tablename], function(err, rows) {
                 if (err) throw err;
               });

@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <% include partials/head %>
+    <script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $.ajax({
+          url: "/numwordstoday",
+          type: "get"
+        }).done(function(data) {
+          $('#numWordsToday').text(data.numWordsToday);
+        });
+        $.ajax({
+          url: "/numwordsprog",
+          type: "get"
+        }).done(function(data) {
+          var levels = new Array(11).fill(0);
+          for(var i = 0; i < data.numWordsProg.length; i++) {
+            // the object name is count(progress), so it cannot be accessed by name
+            levels[data.numWordsProg[i].PROGRESS] = data.numWordsProg[i][Object.keys(data.numWordsProg[i])[0]];
+          }
+          var color = Chart.helpers.color;
+          var barChartData = {
+            labels: ['0', '1', '2', '3', '4', '5', '6','7','8','9','10'],
+            datasets: [{
+              label: 'Count',
+              backgroundColor: color('rgb(54,162,235)').alpha(0.5).rgbString(),
+              borderColor: 'rgb(54,162,235)',
+              borderWidth: 1,
+              data: levels
+            }]
+          };
+          var ctx = document.getElementById('canvas').getContext('2d');
+          window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    fixedStepSize: 1
+                  }
+                }]
+              },
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Words by Levels'
+              }
+            }
+          });
+        });
+      });
+    </script>
+</head>
+
+<body>
+  <% include partials/nav %>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Number of words added today:</label>
+          <label id="numWordsToday"></label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+</body>
+
+</html>

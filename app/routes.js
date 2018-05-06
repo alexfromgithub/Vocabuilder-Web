@@ -127,18 +127,19 @@ module.exports = function(app, passport) {
 
   app.post('/remword', function(req, res) {
     remword2(req.user.id, req.body);
+    res.send('ok');
   });
 
   app.get('/dictionary', isLoggedIn, function(req, res) {
-      res.render('dictionary', {
-        title: 'Dictionary',
-        user: req.user,
-        message: req.flash('messageSuccess')
-      });
+    res.render('dictionary', {
+      title: 'Dictionary',
+      user: req.user,
+      message: req.flash('messageSuccess')
+    });
   });
 
   app.post('/searchword', function(req, res) {
-    searchword(req.body.word, function(err, data){
+    searchword(req.body.word, function(err, data) {
       res.send(data);
     });
   });
@@ -149,8 +150,8 @@ module.exports = function(app, passport) {
     res.redirect('back');
   });
 
-  app.post('/addwords', function(req,res) {
-    for(var i = 0; i < req.body.words.length; i++) {
+  app.post('/addwords', function(req, res) {
+    for (var i = 0; i < req.body.words.length; i++) {
       addWord(req.user.id, req.body.words[i][0], req.body.words[i][1], req.body.words[i][2]);
     }
     res.redirect('back');
@@ -166,6 +167,25 @@ module.exports = function(app, passport) {
 
   app.get('/toeflword', function(req, res) {
     res.send(fs.readFileSync('public/txt/toefl.txt', 'utf8'));
+  });
+
+  app.get('/statistics', isLoggedIn, function(req, res) {
+    res.render('statistics', {
+      title: 'Statistics',
+      user: req.user
+    });
+  });
+
+  app.get('/numwordstoday', function(req,res){
+    numWordsToday(req.user.id, function(err, data) {
+      res.send({numWordsToday: data});
+    });
+  });
+
+  app.get('/numwordsprog', function(req,res){
+    numWordsProg(req.user.id, function(err, data) {
+      res.send({numWordsProg: data});
+    });
   });
 
   app.get('/logout', function(req, res) {
@@ -184,6 +204,7 @@ require('./profile.js')();
 require('./word-list.js')();
 require('./review.js')();
 require('./dictionary.js')();
+require('./statistics.js')();
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())

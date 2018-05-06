@@ -6,6 +6,9 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var wordlist = <%- JSON.stringify(wordlist) %>;
+        for (var i = 0; i < wordlist.length; i++) {
+          wordlist[i].numDontRem = 0;
+        }
         var word = document.getElementById('word');
         var numRemain = document.getElementById('numRemain');
         var showMean = document.getElementById('showMean');
@@ -14,7 +17,6 @@
         numRemain.innerHTML = wordlist.length;
         if (wordlist.length > 0) {
           word.innerHTML = wordlist[0].word;
-          wordlist[0].numDontRem = 0;
         } else {
           word.style.color = "red";
           word.innerHTML = "There are no words to review";

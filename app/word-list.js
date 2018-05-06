@@ -12,8 +12,8 @@ module.exports = function(req, res) {
     yyyy = tomorrow.getFullYear();
     tomorrow = yyyy + '-' + mm + '-' + dd;
     // review date is set to today for testing purpose
-    connection.query("INSERT INTO ?? ( word, pos, meaning, progress, dateadded, daterev, datecomp ) values (?,?,?,?,?,?,?)",
-     [userid, word, pos, meaning, 0, today, today, "1000-1-1"], function(err, rows) {
+    connection.query("INSERT INTO ?? ( word, pos, meaning, progress, dateadded, daterev ) values (?,?,?,?,?,?)",
+     [userid, word, pos, meaning, 0, today, today], function(err, rows) {
       if (err) throw err;
     });
   }
