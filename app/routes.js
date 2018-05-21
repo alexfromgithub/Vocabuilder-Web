@@ -57,36 +57,53 @@ module.exports = function(app, passport) {
   });
 
   app.post('/changename', function(req, res) {
+    if (req.user.username === 'demo') {
+      req.flash('messageFail', 'Sorry. You are using a demo account so you cannot \
+      change your name.');
+      res.redirect('back');
+    }
     changeName(req.user.id, req.body.firstname, req.body.lastname);
     req.flash('messageSuccess', 'Your name has been changed.');
     res.redirect('back');
   });
 
   app.post('/changeemail', function(req, res) {
+    if (req.user.username === 'demo') {
+      req.flash('messageFail', 'Sorry. You are using a demo account so you cannot \
+      change your email.');
+      res.redirect('back');
+    }
     changeEmail(req.user.id, req.body.email);
     req.flash('messageSuccess', 'Your email has been changed.');
     res.redirect('back');
   });
 
   app.post('/changepw', function(req, res) {
+    if (req.user.username === 'demo') {
+      req.flash('messageFail', 'Sorry. You are using a demo account so you cannot \
+      change your password.');
+      res.redirect('back');
+    }
     // Is there a way to move this into profile.js?
     // If I move the redirect out of connection.query, the messages are not flashed
     // I can't move redirect into the module
-    connection.query("SELECT * FROM users WHERE id = ?", [req.user.id], function(err, rows) {
-      if (err) throw err;
-      else if (!bcrypt.compareSync(req.body.oldpw, rows[0].password)) {
-        req.flash('messageFail', 'Your old password is incorrect.');
-      } else if (req.body.newpw !== req.body.newpw2) {
-        req.flash('messageFail', 'Your new passwords do not match.');
-      } else {
-        connection.query("UPDATE users SET password = ? WHERE id = ?", [bcrypt.hashSync(req.body.newpw, null, null), req.user.id], function(err, rows) {
-          if (err) throw err;
-        });
-        req.flash('messageSuccess', 'Your password has been changed. Please \
-        logout for your new password to take effect.');
-      }
-      res.redirect('back');
-    });
+    else {
+      connection.query("SELECT * FROM users WHERE id = ?", [req.user.id], function(err, rows) {
+        if (err) throw err;
+        else if (!bcrypt.compareSync(req.body.oldpw, rows[0].password)) {
+          req.flash('messageFail', 'Your old password is incorrect.');
+        } else if (req.body.newpw !== req.body.newpw2) {
+          req.flash('messageFail', 'Your new passwords do not match.');
+        } else {
+          connection.query("UPDATE users SET password = ? WHERE id = ?", [bcrypt.hashSync(req.body.newpw, null, null), req.user.id], function(err, rows) {
+            if (err) throw err;
+          });
+          req.flash('messageSuccess', 'Your password has been changed. Please \
+          logout for your new password to take effect.');
+        }
+        res.redirect('back');
+      });
+    }
   });
 
   app.get('/word-list', isLoggedIn, function(req, res) {
