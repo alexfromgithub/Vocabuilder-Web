@@ -60,10 +60,11 @@ module.exports = function(app, passport) {
     if (req.user.username === 'demo') {
       req.flash('messageFail', 'Sorry. You are using a demo account so you cannot \
       change your name.');
-      res.redirect('back');
     }
-    changeName(req.user.id, req.body.firstname, req.body.lastname);
-    req.flash('messageSuccess', 'Your name has been changed.');
+    else {
+      changeName(req.user.id, req.body.firstname, req.body.lastname);
+      req.flash('messageSuccess', 'Your name has been changed.');
+    }
     res.redirect('back');
   });
 
@@ -71,10 +72,11 @@ module.exports = function(app, passport) {
     if (req.user.username === 'demo') {
       req.flash('messageFail', 'Sorry. You are using a demo account so you cannot \
       change your email.');
-      res.redirect('back');
     }
-    changeEmail(req.user.id, req.body.email);
-    req.flash('messageSuccess', 'Your email has been changed.');
+    else {
+      changeEmail(req.user.id, req.body.email);
+      req.flash('messageSuccess', 'Your email has been changed.');
+    }
     res.redirect('back');
   });
 
@@ -82,7 +84,6 @@ module.exports = function(app, passport) {
     if (req.user.username === 'demo') {
       req.flash('messageFail', 'Sorry. You are using a demo account so you cannot \
       change your password.');
-      res.redirect('back');
     }
     // Is there a way to move this into profile.js?
     // If I move the redirect out of connection.query, the messages are not flashed
@@ -101,9 +102,9 @@ module.exports = function(app, passport) {
           req.flash('messageSuccess', 'Your password has been changed. Please \
           logout for your new password to take effect.');
         }
-        res.redirect('back');
       });
     }
+    res.redirect('back');
   });
 
   app.get('/word-list', isLoggedIn, function(req, res) {
